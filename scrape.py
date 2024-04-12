@@ -1,3 +1,4 @@
+import json
 import subprocess
 import re
 import time
@@ -48,7 +49,9 @@ def strip_html(html):
 # print(content)
 #
 
-
+def readJson(filename):
+    with open(filename, 'r') as file:
+        return json.load(file)
 
 def open_chrome(url):
     # Command to open Google Chrome with the specified URL
@@ -57,12 +60,27 @@ def open_chrome(url):
     # Execute the command
     subprocess.Popen(command, shell=True)
 
+def scrapeSolutionsForAGivenList(ids):
+    result = {}
+    try:
+        for id in ids:
+            url = f"https://www.codewars.com/kata/{id}/solutions/python"
+            solution = scrapeSolution(url)
+            result[id] = solution
+            time.sleep(0.2)
+        return result
+    except Exception as e:
+        print(e)
+        print("-" * 50)
+        return result
 
 def scrapeSolution(url):
     open_chrome(url)
     time.sleep(5)
+    # Open the inspector
     pyautogui.press("f12")
     time.sleep(1)
+    #Click on console
     consoleButtonPosition = (1400, 130)
     pyautogui.click(consoleButtonPosition)
     time.sleep(1)
@@ -82,20 +100,38 @@ def scrapeSolution(url):
     """
 
     pyperclip.copy(javascriptCode)
-
+    #Paste the code
     pyautogui.hotkey('ctrl', 'v')
-    time.sleep(0.5)
+    time.sleep(1)
     pyautogui.press('enter')
-    time.sleep(0.5)
+    time.sleep(1)
     html = pyperclip.paste()
+
+    if html == javascriptCode:
+        time.sleep(1)
+        html = pyperclip.paste()
+
+    # print("pasted content: ", html)
     xpath = "/html/body/div[1]/div[1]/main/div[4]/div[4]/div[2]/div/div/div[1]/pre"
+
     childInsideXpath = getFirstChildHtmlInsideXpath(html, xpath)
     content = format_python_code(
         replace_multiple_whitespaces_with_single_whitespace(strip_html(childInsideXpath)).strip())
 
     print(content)
-
+    # Close the tab
+    pyautogui.hotkey('ctrl', 'w')
+    return content
 
 if __name__ == '__main__':
-    url = "https://www.codewars.com/kata/57d29ccda56edb4187000052/solutions/python"
-    scrapeSolution(url)
+    # url = "https://www.codewars.com/kata/57d29ccda56edb4187000052/solutions/python"
+    # url = "https://www.codewars.com/kata/52efefcbcdf57161d4000091/solutions/python"
+    # scrapeSolution(url)
+
+    username = "huynd2210"
+    codeChallenges = readJson(f"{username}_completed_challenges.json")
+    ids = list(codeChallenges.keys())[:3]
+    print(ids)
+    result = scrapeSolutionsForAGivenList(ids)
+    with open("huynd2210_scraped_solutions.json", 'w') as file:
+        json.dump(result, file)
