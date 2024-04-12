@@ -60,10 +60,12 @@ def open_chrome(url):
 
 def scrapeSolution(url):
     open_chrome(url)
-    time.sleep(3)
+    time.sleep(5)
     pyautogui.press("f12")
+    time.sleep(1)
     consoleButtonPosition = (1400, 130)
     pyautogui.click(consoleButtonPosition)
+    time.sleep(1)
 
     javascriptCode = """
     function writeToClipboard(text) {
@@ -79,8 +81,12 @@ def scrapeSolution(url):
     writeToClipboard(html);
     """
 
-    pyautogui.write(javascriptCode)
+    pyperclip.copy(javascriptCode)
+
+    pyautogui.hotkey('ctrl', 'v')
+    time.sleep(0.5)
     pyautogui.press('enter')
+    time.sleep(0.5)
     html = pyperclip.paste()
     xpath = "/html/body/div[1]/div[1]/main/div[4]/div[4]/div[2]/div/div/div[1]/pre"
     childInsideXpath = getFirstChildHtmlInsideXpath(html, xpath)
