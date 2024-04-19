@@ -153,11 +153,9 @@
   "58261acb22be6e2ed800003a": "Volume of a Cuboid",
   "529eef7a9194e0cbc1000255": "Anagram Detection",
   "583710ccaa6717322c000105": "Simple multiplication",
-  "566dc566f6ea9a14b500007b": "Filtering even numbers (Bug Fixes)",
   "5625618b1fe21ab49f00001f": "Grasshopper - Debug sayHello",
   "53af2b8861023f1d88000832": "Are You Playing Banjo?",
   "57356c55867b9b7a60000bd7": "Basic Mathematical Operations",
-  "56200d610758762fb0000002": "Grasshopper - Basic Function Fixer",
   "5933a1f8552bc2750a0000ed": "Get Nth Even Number",
   "5808dcb8f0ed42ae34000031": "Switch it Up!",
   "577bd026df78c19bca0002c0": "Correct the mistakes of the character recognition software",
@@ -391,7 +389,6 @@
   "5861d28f124b35723e00005e": "Will you make it?",
   "53ee5429ba190077850011d4": "You Can't Code Under Pressure #1",
   "545afd0761aa4c3055001386": "Enumerable Magic #25 - Take the First N Elements",
-  "55c28f7304e3eaebef0000da": "Unfinished Loop -  Bug Fixing #1",
   "59fca81a5712f9fa4700159a": "Convert to Binary",
   "53934feec44762736c00044b": "Number toString",
   "57126304cdbf63c6770012bd": "Is it a number?",
@@ -413,5 +410,4 @@
   "54c27a33fb7da0db0100040e": "You're a square!",
   "517abf86da9663f1d2000003": "Convert string to camel case",
   "57d814e4950d8489720008db": "N-th Power",
-  "50654ddff44f800200000004": "Multiply"
 }

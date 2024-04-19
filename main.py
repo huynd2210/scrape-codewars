@@ -59,6 +59,8 @@ def readJson(filename):
     with open(filename, 'r') as file:
         return json.load(file)
 
+
+
 def check_if_python_supported(challenge_id):
     # Construct the API endpoint URL
     url = f"https://www.codewars.com/api/v1/code-challenges/{challenge_id}"
@@ -93,22 +95,27 @@ def scrapeCodewarsProblems(username):
 
 
 if __name__ == '__main__':
-    username = "huynd2210"
-    # scrapeCodewarsProblems()
-
-    codeChallenges = readJson(f"{username}_completed_challenges.json")
-    i = 0
+    username = "Voile"
     pythonSupported = []
-    for challenge_id, challenge_name in codeChallenges.items():
-        if check_if_python_supported(challenge_id):
-            pythonSupported.append(challenge_id)
-        i += 1
-        print("Done:", i)
+    try:
+        # scrapeCodewarsProblems()
 
+        codeChallenges = readJson(f"{username}_completed_challenges.json")
+        i = 0
+        for challenge_id, challenge_name in codeChallenges.items():
+            if check_if_python_supported(challenge_id):
+                pythonSupported.append(challenge_id)
+            i += 1
+            print("Done:", i)
 
-    print(pythonSupported)
-    with open(f"{username}_python_supported_challenges.txt", 'w') as file:
-        for item in pythonSupported:
-            file.write(str(item) + "\n")
+        print(pythonSupported)
+        with open(f"{username}_python_supported_challenges.txt", 'w') as file:
+            for item in pythonSupported:
+                file.write(str(item) + "\n")
 
-    print("Amount of python supported challenges: ", len(pythonSupported))
+        print("Amount of python supported challenges: ", len(pythonSupported))
+    except Exception as e:
+        print(e)
+        with open(f"{username}_python_supported_challenges.txt", 'w') as file:
+            for item in pythonSupported:
+                file.write(str(item) + "\n")

@@ -24,5 +24,35 @@ def run(server_class=HTTPServer, handler_class=RequestHandler, port=8099):
     print(f"Server started on port {port}")
     httpd.serve_forever()
 
+
+import requests
+
+def isKataApproved(challenge_id_or_slug):
+    # API endpoint URL
+    api_url = f"https://www.codewars.com/api/v1/code-challenges/{challenge_id_or_slug}"
+
+    # Send GET request
+    response = requests.get(api_url)
+
+    # Check if request was successful (status code 200)
+    if response.status_code == 200:
+        # Parse JSON response
+        data = response.json()
+
+        # Check if the challenge is approved
+        if 'approvedBy' in data:
+            return True
+        else:
+            return False
+    else:
+        raise Exception(f"Failed to retrieve data. Status code: {response.status_code}")
+
+
+
 if __name__ == "__main__":
-    run()
+    # run()
+
+    # Example usage:
+    challenge_id_or_slug = "65f3fad050b1045394b71836"
+    approved_by = isKataApproved(challenge_id_or_slug)
+    print("Approved By:", approved_by)
