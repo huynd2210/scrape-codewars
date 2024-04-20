@@ -179,7 +179,7 @@ def check_if_python_supported(challenge_id):
         return False
 
 
-def unlockSolutionAndCopySolution(url, delay=10):
+def unlockSolutionAndCopySolution(url, delay=6):
     open_chrome(url)
     time.sleep(delay)
     # Click on the unlock solution button using js
