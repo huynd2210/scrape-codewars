@@ -17,3 +17,11 @@ P
  huynd2210_scraped_solutions.json,1\9\19ff0b348b5d55adafa92907404e8cc529aec4af
 9
 	scrape.py,a\6\a63b5276f5108ef48012e00acd1f8ebe9f45bf1a
+Z
+*Voile_completed_challenges_Unfinished.json,0\f\0f6db79d8c8dabb171356d82d5194c5606cce9ae
+\
+,Voile_completed_challenges_approved_wip.json,2\7\27416ae09b2e70e982412e537ec6c060388d02cc
+f
+6Voile_completed_challenges_approved_wip_unscraped.json,f\4\f497364a2267efc2ac4c9360c95d97cc01411bb0
+m
+=Voile_completed_challenges_approved_wip_python_supported.json,6\d\6db06751c1a5450c972de7bc96c5c5b93856c0ab

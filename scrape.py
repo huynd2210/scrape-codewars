@@ -419,35 +419,158 @@ def isKataApproved(challenge_id_or_slug):
     else:
         raise Exception(f"Failed to retrieve data. Status code: {response.status_code}")
 
-
-
 def scrapeUnfinishedCodewarProblems(username="Voile"):
-    unscrapedCodeChallenges = readJson(f"{username}_completed_challenges.json")
+    # unscrapedCodeChallenges = readJson(f"{username}_completed_challenges.json")
+    unscrapedCodeChallenges = readJson(f"{username}_completed_challenges_approved_wip_python_supported.json")
     scrapedSolutions = readJson("huynd2210_scraped_solutions.json")
     result = {}
 
-    scrapedSolutionsIds = list(scrapedSolutions.keys())
+    scrapedSolutionsIds = set(scrapedSolutions.keys())
 
     print("Amount of unscraped challenges: ", len(unscrapedCodeChallenges))
     print("Amount of scraped solutions: ", len(scrapedSolutionsIds))
 
+    maxProblemsToScrape = 500
+    i = 0
+
+    scrapedThisSession = set()
+    pythonNotSupportedThisSession = set()
+    problemNotApprovedThisSession = set()
+
     try:
         for id in unscrapedCodeChallenges:
-            if check_if_python_supported(id) and id not in scrapedSolutionsIds and isKataApproved(id):
+            isKataPythonSupported = check_if_python_supported(id)
+            isProblemApproved = isKataApproved(id)
+
+            if i > maxProblemsToScrape:
+                break
+            # if isKataPythonSupported and id not in scrapedSolutionsIds and isProblemApproved:
+            #     url = f"https://www.codewars.com/kata/{id}/solutions/python"
+            #     solution = unlockSolutionAndCopySolution(url)
+            #     result[id] = solution
+            #     time.sleep(0.2)
+            #     i += 1
+
+            if not isKataPythonSupported:
+                pythonNotSupportedThisSession.add(id)
+
+            if not isProblemApproved:
+                problemNotApprovedThisSession.add(id)
+
+            if isKataPythonSupported and id not in scrapedSolutionsIds and isProblemApproved:
                 url = f"https://www.codewars.com/kata/{id}/solutions/python"
                 solution = unlockSolutionAndCopySolution(url)
                 result[id] = solution
                 time.sleep(0.2)
+                i += 1
+                scrapedThisSession.add(id)
+
+
         scrapedSolutions.update(result)
+
+        unscrapedCodeChallenges = {key: value for key, value in unscrapedCodeChallenges.items() if key not in scrapedThisSession}
+        unscrapedCodeChallenges = {key: value for key, value in unscrapedCodeChallenges.items() if key not in pythonNotSupportedThisSession}
+        unscrapedCodeChallenges = {key: value for key, value in unscrapedCodeChallenges.items() if key not in problemNotApprovedThisSession}
+
+        with open(f"{username}_completed_challenges_approved_wip_python_supported.json", 'w') as file:
+            json.dump(unscrapedCodeChallenges, file)
         with open("huynd2210_scraped_solutions.json", 'w') as file:
             json.dump(scrapedSolutions, file)
+
+
     except Exception as e:
         print(e)
         print("-" * 50)
         scrapedSolutions.update(result)
+        unscrapedCodeChallenges = {key: value for key, value in unscrapedCodeChallenges.items() if key not in scrapedThisSession}
+        unscrapedCodeChallenges = {key: value for key, value in unscrapedCodeChallenges.items() if key not in pythonNotSupportedThisSession}
+        unscrapedCodeChallenges = {key: value for key, value in unscrapedCodeChallenges.items() if key not in problemNotApprovedThisSession}
+
+        with open(f"{username}_completed_challenges_approved_wip_python_supported.json", 'w') as file:
+            json.dump(unscrapedCodeChallenges, file)
         with open("huynd2210_scraped_solutions.json", 'w') as file:
             json.dump(scrapedSolutions, file)
 
+
+
+def removeScrapedProblemsFromMainList():
+    username = "Voile"
+    unscrapedCodeChallenges = readJson(f"{username}_completed_challenges.json")
+    scrapedSolutions = readJson("huynd2210_scraped_solutions.json")
+
+    newDict = {}
+
+    for id in unscrapedCodeChallenges:
+        if id not in scrapedSolutions:
+            # del unscrapedCodeChallenges[id]
+            newDict[id] = unscrapedCodeChallenges[id]
+
+    with open(f"{username}_completed_challenges.json", 'w') as file:
+        json.dump(newDict, file)
+
+
+def removeUnapprovedKata():
+    global result_dict
+    username = "Voile"
+    unscrapedCodeChallenges = readJson(f"{username}_completed_challenges.json")
+    unapprovedKata = {}
+    i = 0
+    try:
+        for id in unscrapedCodeChallenges:
+            if i > 900:
+                break
+            if not isKataApproved(id):
+                unapprovedKata[id] = unscrapedCodeChallenges[id]
+            i+=1
+            print(i)
+
+        result_dict = {key: value for key, value in unscrapedCodeChallenges.items() if key not in unapprovedKata}
+        with open(f"{username}_completed_challenges_approved_wip.json", 'w') as file:
+            json.dump(result_dict, file)
+
+        print("Amount of challenges left: ", len(result_dict))
+    except:
+        print("Error")
+        with open(f"{username}_completed_challenges_approved_wip.json", 'w') as file:
+            json.dump(result_dict, file)
+
+        print("Amount of challenges left: ", len(result_dict))
+
+        raise Exception("Error")
+
+def removeNonPythonChallenges():
+    challenges = readJson("Voile_completed_challenges_approved_wip.json")
+    i = 0
+    newDict = {}
+    global finalDict
+    try:
+        for id in challenges:
+            if i > 200:
+                break
+            if check_if_python_supported(id):
+                newDict[id] = challenges[id]
+            i+=1
+            print(i)
+
+        finalDict = {key: value for key, value in challenges.items() if key not in newDict}
+        with open("Voile_completed_challenges_approved_wip_python_supported.json", 'w') as file:
+            json.dump(finalDict, file)
+    except Exception as e:
+        with open("Voile_completed_challenges_approved_wip_python_supported.json", 'w') as file:
+            json.dump(finalDict, file)
+        raise e
+
+def removeScrapedFromApproved():
+    challenges = readJson("Voile_completed_challenges_approved_wip.json")
+    scrapedSolution = readJson("huynd2210_scraped_solutions.json")
+
+    newDict = {}
+    for id in challenges:
+        if id not in scrapedSolution:
+            newDict[id] = challenges[id]
+
+    with open("Voile_completed_challenges_approved_wip_unscraped.json", 'w') as file:
+        json.dump(newDict, file)
 
 if __name__ == '__main__':
     # url = "https://www.codewars.com/kata/57d29ccda56edb4187000052/solutions/python"
@@ -469,6 +592,12 @@ if __name__ == '__main__':
     #     json.dump(result, file)
 
     scrapeUnfinishedCodewarProblems()
+
+    # removeScrapedProblemsFromMainList()
+
+    # removeUnapprovedKata()
+    # removeNonPythonChallenges()
+    # removeScrapedFromApproved()
 
     # id, solution = scrapeUnfishedCodewarsProblemsWithoutIdList()
 
