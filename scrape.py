@@ -430,7 +430,7 @@ def scrapeUnfinishedCodewarProblems(username="Voile"):
     print("Amount of unscraped challenges: ", len(unscrapedCodeChallenges))
     print("Amount of scraped solutions: ", len(scrapedSolutionsIds))
 
-    maxProblemsToScrape = 500
+    maxProblemsToScrape = 200
     i = 0
 
     scrapedThisSession = set()
@@ -572,7 +572,47 @@ def removeScrapedFromApproved():
     with open("Voile_completed_challenges_approved_wip_unscraped.json", 'w') as file:
         json.dump(newDict, file)
 
+
+
+def retry(func, n_attempts, delay=0):
+    """
+    Retry a function for a specified number of attempts if it fails.
+
+    Args:
+        func (callable): The function to be retried.
+        n_attempts (int): Number of attempts to retry the function.
+        delay (int, optional): Delay in seconds between retries.
+
+    Returns:
+        The result of the function if successful, otherwise None.
+    """
+    for _ in range(n_attempts):
+        try:
+            result = func()
+            return result  # If successful, return the result
+        except Exception as e:
+            print(f"Attempt failed: {e}")
+            if delay > 0:
+                time.sleep(delay)
+    return None
+
+
 if __name__ == '__main__':
+
+
+    unscrapedCodeChallenges = readJson(f"Voile_completed_challenges_approved_wip_python_supported.json")
+    scrapedSolutions = readJson("huynd2210_scraped_solutions.json")
+
+    print("Amount of unscraped challenges: ", len(unscrapedCodeChallenges))
+
+    for id in scrapedSolutions:
+        if id in unscrapedCodeChallenges:
+            del unscrapedCodeChallenges[id]
+    with open(f"Voile_completed_challenges_approved_wip_python_supported.json", 'w') as file:
+        json.dump(unscrapedCodeChallenges, file)
+    print("Amount of challenges left: ", len(unscrapedCodeChallenges))
+
+
     # url = "https://www.codewars.com/kata/57d29ccda56edb4187000052/solutions/python"
     # url = "https://www.codewars.com/kata/52efefcbcdf57161d4000091/solutions/python"
     # scrapeSolution(url)
@@ -591,7 +631,9 @@ if __name__ == '__main__':
     # with open("huynd2210_scraped_solutions.json", 'w') as file:
     #     json.dump(result, file)
 
-    scrapeUnfinishedCodewarProblems()
+    # scrapeUnfinishedCodewarProblems()
+    # retry(scrapeUnfinishedCodewarProblems, 5, 90)
+
 
     # removeScrapedProblemsFromMainList()
 
