@@ -179,7 +179,7 @@ def check_if_python_supported(challenge_id):
         return False
 
 
-def unlockSolutionAndCopySolution(url, delay=6):
+def unlockSolutionAndCopySolution(url, delay=5):
     open_chrome(url)
     time.sleep(delay)
     # Click on the unlock solution button using js
@@ -209,7 +209,7 @@ def unlockSolutionAndCopySolution(url, delay=6):
     pyautogui.hotkey('ctrl', 'v')
     time.sleep(1)
     pyautogui.press('enter')
-    time.sleep(1)
+    time.sleep(2)
 
     copyJsCode = """
     function writeToClipboard(text) {
@@ -430,7 +430,7 @@ def scrapeUnfinishedCodewarProblems(username="Voile"):
     print("Amount of unscraped challenges: ", len(unscrapedCodeChallenges))
     print("Amount of scraped solutions: ", len(scrapedSolutionsIds))
 
-    maxProblemsToScrape = 200
+    maxProblemsToScrape = 10
     i = 0
 
     scrapedThisSession = set()
@@ -597,14 +597,10 @@ def retry(func, n_attempts, delay=0):
     return None
 
 
-if __name__ == '__main__':
-
-
+def removeScraped():
     unscrapedCodeChallenges = readJson(f"Voile_completed_challenges_approved_wip_python_supported.json")
     scrapedSolutions = readJson("huynd2210_scraped_solutions.json")
-
     print("Amount of unscraped challenges: ", len(unscrapedCodeChallenges))
-
     for id in scrapedSolutions:
         if id in unscrapedCodeChallenges:
             del unscrapedCodeChallenges[id]
@@ -612,6 +608,11 @@ if __name__ == '__main__':
         json.dump(unscrapedCodeChallenges, file)
     print("Amount of challenges left: ", len(unscrapedCodeChallenges))
 
+
+if __name__ == '__main__':
+
+
+    # removeScraped()
 
     # url = "https://www.codewars.com/kata/57d29ccda56edb4187000052/solutions/python"
     # url = "https://www.codewars.com/kata/52efefcbcdf57161d4000091/solutions/python"
@@ -631,8 +632,8 @@ if __name__ == '__main__':
     # with open("huynd2210_scraped_solutions.json", 'w') as file:
     #     json.dump(result, file)
 
-    # scrapeUnfinishedCodewarProblems()
-    # retry(scrapeUnfinishedCodewarProblems, 5, 90)
+    scrapeUnfinishedCodewarProblems()
+    # retry(scrapeUnfinishedCodewarProblems, 3, 90)
 
 
     # removeScrapedProblemsFromMainList()
