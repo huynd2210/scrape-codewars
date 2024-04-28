@@ -1,0 +1,27 @@
+[
+    {
+        "id": "5277c8a221e209d3f6000b56",
+        "name": "Valid Braces",
+        "url": "https://www.codewars.com/kata/5277c8a221e209d3f6000b56",
+        "category": "algorithms",
+        "description": "Write a function that takes a string of braces, and determines if the order of the braces is valid. It should return `true` if the string is valid, and `false` if it's invalid.\n\n\nThis Kata is similar to the [Valid Parentheses](https://www.codewars.com/kata/valid-parentheses-1) Kata, but introduces new characters: brackets `[]`, and curly braces `{}`. Thanks to `@arnedag` for the idea!\n\n\nAll input strings will be nonempty, and will only consist of parentheses, brackets and curly braces: `()[]{}`. \n\n\n\n### What is considered Valid?\n\n\nA string of braces is considered valid if all braces are matched with the correct brace.\n\n\n## Examples\n\n```\n\"(){}[]\"   =>  True\n\"([{}])\"   =>  True\n\"(}\"       =>  False\n\"[(])\"     =>  False\n\"[({})](]\" =>  False\n```\n\n",
+        "tags": [
+            "Algorithms"
+        ],
+        "rank_name": "6 kyu"
+    },
+    {
+        "id": "56c5847f27be2c3db20009c3",
+        "name": "Never visit a . . . !?",
+        "url": "https://www.codewars.com/kata/56c5847f27be2c3db20009c3",
+        "category": "games",
+        "description": "# Subtract the sum\n\n<span style=\"color:red\">_NOTE! This kata can be more difficult than regular 8-kyu katas (lets say 7 or 6 kyu)_</span>\n\n\n\nComplete the function which get an input number `n` such that `n >= 10` and `n < 10000`, then:    \n1. Sum all the digits of `n`.    \n2. Subtract the sum from `n`, and it is your new `n`.    \n3. If the new `n` is in the list below return the associated fruit, otherwise return back to task 1.    \n\n### Example\nn = `325`   \nsum = `3+2+5` = `10`   \nn = `325-10` = `315` (not in the list)    \nsum = `3+1+5` = `9`    \nn = `315-9` = `306` (not in the list)   \nsum = `3+0+6` = `9`   \nn =`306-9` = `297` (not in the list)   \n.   \n.   \n.   \n...until you find the first n in the list below.\n\n\nThere is no preloaded code to help you.\n_This is not about coding skills; think before you code_\n\n\n```\n1-kiwi\n2-pear\n3-kiwi\n4-banana\n5-melon\n6-banana\n7-melon\n8-pineapple\n9-apple\n10-pineapple\n11-cucumber\n12-pineapple\n13-cucumber\n14-orange\n15-grape\n16-orange\n17-grape\n18-apple\n19-grape\n20-cherry\n21-pear\n22-cherry\n23-pear\n24-kiwi\n25-banana\n26-kiwi\n27-apple\n28-melon\n29-banana\n30-melon\n31-pineapple\n32-melon\n33-pineapple\n34-cucumber\n35-orange\n36-apple\n37-orange\n38-grape\n39-orange\n40-grape\n41-cherry\n42-pear\n43-cherry\n44-pear\n45-apple\n46-pear\n47-kiwi\n48-banana\n49-kiwi\n50-banana\n51-melon\n52-pineapple\n53-melon\n54-apple\n55-cucumber\n56-pineapple\n57-cucumber\n58-orange\n59-cucumber\n60-orange\n61-grape\n62-cherry\n63-apple\n64-cherry\n65-pear\n66-cherry\n67-pear\n68-kiwi\n69-pear\n70-kiwi\n71-banana\n72-apple\n73-banana\n74-melon\n75-pineapple\n76-melon\n77-pineapple\n78-cucumber\n79-pineapple\n80-cucumber\n81-apple\n82-grape\n83-orange\n84-grape\n85-cherry\n86-grape\n87-cherry\n88-pear\n89-cherry\n90-apple\n91-kiwi\n92-banana\n93-kiwi\n94-banana\n95-melon\n96-banana\n97-melon\n98-pineapple\n99-apple\n100-pineapple\n\n```\n \n",
+        "tags": [
+            "Puzzles",
+            "Strings",
+            "Number Theory",
+            "Mathematics"
+        ],
+        "rank_name": "8 kyu"
+    }
+]
