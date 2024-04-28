@@ -430,7 +430,7 @@ def scrapeUnfinishedCodewarProblems(username="Voile"):
     print("Amount of unscraped challenges: ", len(unscrapedCodeChallenges))
     print("Amount of scraped solutions: ", len(scrapedSolutionsIds))
 
-    maxProblemsToScrape = 10
+    maxProblemsToScrape = 1
     i = 0
 
     scrapedThisSession = set()
